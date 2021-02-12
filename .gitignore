@@ -15,5 +15,5 @@
 *.jpeg
 *.svg
 
-#should ignore any template files
+#should ignore any template files listed below
 *.html
