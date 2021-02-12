@@ -1,10 +1,19 @@
-# should ignore any configuration files
+#should ignore any build files
+*.lock
+*.bin
+*.xml
+
+#should ignore any configuration files
 *.properties
 
-# should ignore any text files
+#should ignore any text files
 *.txt
 
 #should ignore any graphic files of types listed below
 *.png
 *.jpg
 *.jpeg
+*.svg
+
+#should ignore any html template files
+*.html
