@@ -93,14 +93,14 @@ public class TattooistProfile extends UserProfile implements Verifiable<Tattoois
         }
     }
 
-    public void changeTattooColorPreferences(ColorPreferences preferences) {
+    public void changeTattooColorPreference(ColorPreference preference) {
         if(!hasBio()) {
             this.bio = new TattooistProfileBio.Builder(this)
-                                              .withTattooColorPreferences(preferences)
+                                              .withTattooColorPreference(preference)
                                               .build();
         }
         else {
-            this.bio.changeTattooColorPreferences(preferences);
+            this.bio.changeTattooColorPreference(preference);
         }
     }
 

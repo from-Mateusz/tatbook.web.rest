@@ -38,7 +38,7 @@ public class ClientProfile extends UserProfile {
     private HealthCondition healthCondition;
 
     @Embedded
-    private ColorPreferences colorPreferences;
+    private ColorPreference colorPreference;
 
     public ClientProfile() {super();}
 
@@ -56,14 +56,14 @@ public class ClientProfile extends UserProfile {
         return id;
     }
 
-    public ColorPreferences getColorPreferences() {
-        return colorPreferences;
+    public ColorPreference getColorPreference() {
+        return colorPreference;
     }
 
     public HealthCondition getHealthCondition() { return healthCondition; }
 
-    public void changeColorPreferences(ColorPreferences preferences) {
-        this.colorPreferences = colorPreferences;
+    public void changeColorPreference(ColorPreference preference) {
+        this.colorPreference = colorPreference;
     }
 
     public void changeStylePreferences(Collection<StylePreference> styles) {

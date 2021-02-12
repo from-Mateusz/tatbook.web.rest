@@ -18,7 +18,7 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
     private TattooistProfile tattooistProfile;
 
     @Embedded
-    private ColorPreferences colorPreferences;
+    private ColorPreference colorPreference;
 
     private String pseudonym;
 
@@ -27,9 +27,9 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
 
     public TattooistProfileBio() {}
 
-    protected TattooistProfileBio(TattooistProfile tattooistProfile, ColorPreferences colorPreferences, String pseudonym, String about) {
+    protected TattooistProfileBio(TattooistProfile tattooistProfile, ColorPreference colorPreference, String pseudonym, String about) {
         this.tattooistProfile = tattooistProfile;
-        this.colorPreferences = colorPreferences;
+        this.colorPreference = colorPreference;
         this.pseudonym = pseudonym;
         this.about = about;
     }
@@ -42,7 +42,7 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
 
         private TattooistProfile tattooistProfile;
 
-        private ColorPreferences colorPreferences;
+        private ColorPreference colorPreference;
 
         private String pseudonym;
 
@@ -52,8 +52,8 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
             this.tattooistProfile = tattooistProfile;
         }
 
-        public Builder withTattooColorPreferences(ColorPreferences preferences) {
-            colorPreferences = preferences;
+        public Builder withTattooColorPreference(ColorPreference preference) {
+            colorPreference = preference;
             return this;
         }
 
@@ -68,7 +68,7 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
         }
 
         public TattooistProfileBio build() {
-            return new TattooistProfileBio(tattooistProfile, colorPreferences, pseudonym, about);
+            return new TattooistProfileBio(tattooistProfile, colorPreference, pseudonym, about);
         }
     }
 
@@ -85,12 +85,12 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
         this.tattooistProfile = tattooistProfile;
     }
 
-    public ColorPreferences getColorPreferences() {
-        return colorPreferences;
+    public ColorPreference getColorPreferences() {
+        return colorPreference;
     }
 
-    public void setColorPreferences(ColorPreferences colorPreferences) {
-        this.colorPreferences = colorPreferences;
+    public void setColorPreferences(ColorPreference colorPreferences) {
+        this.colorPreference = colorPreferences;
     }
 
     public String getPseudonym() {
@@ -117,7 +117,7 @@ public class TattooistProfileBio extends DomainEntity implements Serializable {
         this.about = about;
     }
 
-    public void changeTattooColorPreferences(ColorPreferences preferences) {
-        colorPreferences = preferences;
+    public void changeTattooColorPreference(ColorPreference preference) {
+        colorPreference = preference;
     }
 }

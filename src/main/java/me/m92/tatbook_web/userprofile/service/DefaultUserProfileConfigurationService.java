@@ -9,7 +9,7 @@ import me.m92.tatbook_web.security.CurrentlyLoggedInUserProfileUtil;
 import me.m92.tatbook_web.studio.TattooStudio;
 import me.m92.tatbook_web.studio.mapper.TattooStudioMapper;
 import me.m92.tatbook_web.userprofile.*;
-import me.m92.tatbook_web.userprofile.mapper.ColorPreferencesMapper;
+import me.m92.tatbook_web.userprofile.mapper.ColorPreferenceMapper;
 import me.m92.tatbook_web.userprofile.mapper.HealthConditionMapper;
 import me.m92.tatbook_web.userprofile.mapper.StylePreferenceMapper;
 import me.m92.tatbook_web.userprofile.mapper.TattooistProfileBioMapper;
@@ -41,7 +41,7 @@ class DefaultUserProfileConfigurationService implements UserProfileConfiguration
 
     private StylePreferenceMapper stylePreferenceMapper;
 
-    private ColorPreferencesMapper colorPreferencesMapper;
+    private ColorPreferenceMapper colorPreferenceMapper;
 
     private HealthConditionMapper healthConditionMapper;
 
@@ -54,7 +54,7 @@ class DefaultUserProfileConfigurationService implements UserProfileConfiguration
                                                   TattooStudioMapper studioMapper,
                                                   TattooistProfileBioMapper bioMapper,
                                                   StylePreferenceMapper stylePreferenceMapper,
-                                                  ColorPreferencesMapper colorPreferencesMapper,
+                                                  ColorPreferenceMapper colorPreferenceMapper,
                                                   HealthConditionMapper healthConditionMapper,
                                                   CurrentlyLoggedInUserProfileUtil currentlyLoggedInUserProfileUtil) {
         this.tattooistProfileRepository = tattooistProfileRepository;
@@ -63,7 +63,7 @@ class DefaultUserProfileConfigurationService implements UserProfileConfiguration
         this.studioMapper = studioMapper;
         this.bioMapper = bioMapper;
         this.stylePreferenceMapper = stylePreferenceMapper;
-        this.colorPreferencesMapper = colorPreferencesMapper;
+        this.colorPreferenceMapper = colorPreferenceMapper;
         this.healthConditionMapper = healthConditionMapper;
         this.currentlyLoggedInUserProfileUtil = currentlyLoggedInUserProfileUtil;
     }
@@ -100,9 +100,9 @@ class DefaultUserProfileConfigurationService implements UserProfileConfiguration
                                                                     .stream()
                                                                     .map(styleProjection -> stylePreferenceMapper.mapFrom(styleProjection))
                                                                     .collect(Collectors.toList());
-            final ColorPreferences colorPreferences = colorPreferencesMapper.mapFrom(clientProfileConfiguration.getColorPreferencesConfiguration());
+            final ColorPreference colorPreferences = colorPreferenceMapper.mapFrom(clientProfileConfiguration.getColorPreferenceConfiguration());
             existingClientProfile.changeStylePreferences(styles);
-            existingClientProfile.changeColorPreferences(colorPreferences);
+            existingClientProfile.changeColorPreference(colorPreferences);
             clientProfileRepository.update(existingClientProfile);
         }
         return TextApplicationResponse.ok("Client profile has benn configured and should awaits verification");

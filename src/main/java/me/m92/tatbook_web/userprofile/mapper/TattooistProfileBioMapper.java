@@ -5,7 +5,7 @@ import me.m92.tatbook_web.userprofile.TattooistProfileBio;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {ColorPreferencesMapper.class})
+@Mapper(componentModel = "spring", uses = {ColorPreferenceMapper.class})
 public interface TattooistProfileBioMapper {
 
     @Mapping(target = "tattooistProfile", ignore = true)

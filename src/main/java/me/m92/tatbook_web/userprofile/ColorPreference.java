@@ -7,7 +7,7 @@ import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ColorPreferences {
+public class ColorPreference {
 
     @Convert(converter = BooleanToIntegerConverter.class)
     @Column(name = "keen_on_shades_of_grey_tattoos")
@@ -17,23 +17,23 @@ public class ColorPreferences {
     @Column(name = "keen_on_colorful_tattoos")
     private boolean colorful;
 
-    public ColorPreferences() { }
+    public ColorPreference() { }
 
-    public ColorPreferences(boolean shadesOfGrey, boolean colorful) {
+    public ColorPreference(boolean shadesOfGrey, boolean colorful) {
         this.shadesOfGrey = shadesOfGrey;
         this.colorful = colorful;
     }
 
-    public static ColorPreferences every() {
-        return new ColorPreferences(true, true);
+    public static ColorPreference every() {
+        return new ColorPreference(true, true);
     }
 
-    public static ColorPreferences onlyShadesOfGrey() {
-        return new ColorPreferences(true, false);
+    public static ColorPreference onlyShadesOfGrey() {
+        return new ColorPreference(true, false);
     }
 
-    public static ColorPreferences onlyColorful() {
-        return new ColorPreferences(false, true);
+    public static ColorPreference onlyColorful() {
+        return new ColorPreference(false, true);
     }
 
     public boolean preferShadesOfGrey() {
