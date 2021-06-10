@@ -1,0 +1,101 @@
+package me.m92.tatbook_web.core.models;
+
+import java.util.*;
+
+public class TattooistProfile extends PersonalProfile {
+
+    private String bio;
+
+    private String instagramProfile;
+
+    private Set<TattooStyle> masteredStyles;
+
+    private Calendar calendar;
+
+    private Portfolio portfolio;
+
+    private TattooistProfileLegitimation legitimation;
+
+    private List<Workplace> workplaces;
+
+    private TattooistProfile() {
+        super();
+    }
+
+    private TattooistProfile(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password, String instagramProfile) {
+        super(name, emailAddress, mobileNumber, password);
+        this.instagramProfile = instagramProfile;
+        this.masteredStyles = new HashSet<>();
+        this.calendar = Calendar.create();
+        this.portfolio = Portfolio.create();
+        this.workplaces = new ArrayList<>();
+    }
+
+    public static TattooistProfile create(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password, String instagramProfile) {
+        return new TattooistProfile(name, emailAddress, mobileNumber, password, instagramProfile);
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getInstagramProfile() {
+        return instagramProfile;
+    }
+
+    public void setInstagramProfile(String instagramProfile) {
+        this.instagramProfile = instagramProfile;
+    }
+
+    public void recordDueDateInCalendar(DueDate dueDate) {
+        this.calendar.addDueDate(dueDate);
+    }
+
+    public void eraseDueDateFromCalendar(DueDate dueDate) {
+        this.calendar.removeDueDate(dueDate);
+    }
+
+    public void freeDueDateFromCalendar(DueDate dueDate) {
+        this.calendar.freeDueDate(dueDate);
+    }
+
+    public List<DueDate> getDueDatesFromCalendar(DueDate dueDate) {
+        return this.calendar.getDueDates();
+    }
+
+    public void addFileToPortfolio(MediaFile mediaFile) {
+        this.portfolio.addMediaFile(mediaFile);
+    }
+
+    public void removeFileFromPortfolio(MediaFile mediaFile) {
+        this.portfolio.removeMediaFile(mediaFile);
+    }
+
+    public List<MediaFile> getPortfolioFiles() {
+        return this.portfolio.getMediaFiles();
+    }
+
+    public void addWorkplace(Workplace workplace) {
+        this.workplaces.add(workplace);
+    }
+
+    public void leaveWorkplace(Workplace workplace) {
+        this.workplaces.remove(workplace);
+    }
+
+    public boolean isLegit() {
+        return legitimation.isConfirmed();
+    }
+
+    @Override
+    public List<String> getRoles() {
+        if(this.roles.isEmpty()) {
+            this.roles.add("tattooist");
+        }
+        return Collections.unmodifiableList(this.roles);
+    }
+}

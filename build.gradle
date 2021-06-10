@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+ext {
+    springBootVersion = "2.4.2"
+    thymeleafVersion = "3.0.12.RELEASE"
+}
+
+group 'me.92'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation ('org.springframework.boot:spring-boot-starter-web',
+                    'org.mapstruct:mapstruct:1.4.1.Final',
+                    'mysql:mysql-connector-java:8.0.23',
+                    'com.fasterxml.jackson.core:jackson-core:2.11.3',
+                    'org.javamoney:moneta:1.4.2',
+                    "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}",
+                    "org.springframework.boot:spring-boot-starter-security:${springBootVersion}",
+                    'com.sun.mail:javax.mail:1.6.2',
+                    "org.thymeleaf:thymeleaf:${thymeleafVersion}",
+                    "org.thymeleaf:thymeleaf-spring5:${thymeleafVersion}",
+                    "org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}",
+                    'redis.clients:jedis:3.5.1',
+                    'com.auth0:java-jwt:3.12.1',
+                    'com.fasterxml.jackson.core:jackson-core:2.12.1',
+                    'commons-io:commons-io:2.8.0',
+                    'com.google.code.gson:gson:2.8.6',
+    )
+
+    implementation (
+            'org.slf4j:slf4j-api:1.7.30',
+            'ch.qos.logback:logback-classic:1.2.3'
+    )
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation('junit:junit:4.13.1')
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+}
+
+
+test {
+    useJUnitPlatform()
+}

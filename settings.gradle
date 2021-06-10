@@ -1,0 +1,3 @@
+rootProject.name = 'tatbook-web'
+include 'empty'
+
