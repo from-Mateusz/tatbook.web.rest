@@ -1,12 +1,14 @@
 package me.m92.tatbook_web.core.models;
 
+import me.m92.tatbook_web.configuration.security.Token;
+
 import java.time.LocalDateTime;
 
 public class MobileNumberConfirmation {
 
     private static final Long timeForVerification = 10L;
 
-    private String token;
+    private Token token;
 
     private LocalDateTime expireDate;
 
@@ -14,11 +16,11 @@ public class MobileNumberConfirmation {
 
     private MobileNumberConfirmation() {}
 
-    public MobileNumberConfirmation(String token) {
+    private MobileNumberConfirmation(Token token) {
         this.token = token;
     }
 
-    public static MobileNumberConfirmation create(String token) {
+    public static MobileNumberConfirmation create(Token token) {
         return new MobileNumberConfirmation(token);
     }
 
@@ -30,6 +32,10 @@ public class MobileNumberConfirmation {
         if(token.equals(this.token)) {
             this.useDate = LocalDateTime.now();
         }
+    }
+
+    public Token getToken() {
+        return this.token;
     }
 
     public boolean isConfirmed() {

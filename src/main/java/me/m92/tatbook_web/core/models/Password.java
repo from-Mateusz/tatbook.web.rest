@@ -25,8 +25,12 @@ public class Password {
         this.value = value;
     }
 
-    public static Password create(String body) {
-        return new Password(body);
+    public static Password create(String value) {
+        return new Password(value);
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

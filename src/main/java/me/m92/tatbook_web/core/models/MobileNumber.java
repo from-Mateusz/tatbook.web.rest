@@ -1,5 +1,7 @@
 package me.m92.tatbook_web.core.models;
 
+import me.m92.tatbook_web.configuration.security.Token;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
@@ -13,12 +15,12 @@ public class MobileNumber {
 
     private MobileNumber() {}
 
-    private MobileNumber(String number, String token) {
+    private MobileNumber(String number, Token token) {
         this.number = number;
         this.confirmation = MobileNumberConfirmation.create(token);
     }
 
-    public static MobileNumber create(String number, String token) {
+    public static MobileNumber create(String number, Token token) {
         return new MobileNumber(number, token);
     }
 
@@ -34,7 +36,11 @@ public class MobileNumber {
         confirmation.complete(token);
     }
 
-    public void rotateToken(String token) {
+    public Token getToken() {
+        return this.confirmation.getToken();
+    }
+
+    public void rotateToken(Token token) {
         this.confirmation = MobileNumberConfirmation.create(token);
     }
 }

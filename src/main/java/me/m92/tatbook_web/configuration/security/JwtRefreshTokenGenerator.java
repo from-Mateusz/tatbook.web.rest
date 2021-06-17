@@ -6,7 +6,7 @@ import me.m92.tatbook_web.configuration.security.utils.Moment;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtRefreshTokenGenerator implements TokenGenerator {
+public class JwtRefreshTokenGenerator implements AuthorizationTokenGenerator {
 
     private final int longevityMinutes = 60;
 

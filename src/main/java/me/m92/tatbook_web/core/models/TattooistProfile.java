@@ -18,11 +18,11 @@ public class TattooistProfile extends PersonalProfile {
 
     private List<Workplace> workplaces;
 
-    private TattooistProfile() {
+    public TattooistProfile() {
         super();
     }
 
-    private TattooistProfile(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password, String instagramProfile) {
+    private TattooistProfile(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password) {
         super(name, emailAddress, mobileNumber, password);
         this.instagramProfile = instagramProfile;
         this.masteredStyles = new HashSet<>();
@@ -31,8 +31,8 @@ public class TattooistProfile extends PersonalProfile {
         this.workplaces = new ArrayList<>();
     }
 
-    public static TattooistProfile create(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password, String instagramProfile) {
-        return new TattooistProfile(name, emailAddress, mobileNumber, password, instagramProfile);
+    public static TattooistProfile create(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password) {
+        return new TattooistProfile(name, emailAddress, mobileNumber, password);
     }
 
     public String getBio() {

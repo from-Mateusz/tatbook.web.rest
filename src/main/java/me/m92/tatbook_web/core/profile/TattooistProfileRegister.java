@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TattooistProfileRegister extends CommonPersonalProfileRegister<TattooistProfile> {
-    @Autowired
-    public TattooistProfileRegister(MobileNumberConfirmationCodeProducer verificationCodeProducer,
-                                    PersonalProfileRepository<TattooistProfile> personalProfileRepository,
-                                    TattooistProfileRegistrationPublisher tattooistProfileRegistrationPublisher,
-                                    MobileNumberConfirmationPublisher mobileNumberVerificationPublisher) {
-        super(verificationCodeProducer, personalProfileRepository, tattooistProfileRegistrationPublisher, mobileNumberVerificationPublisher);
-    }
+//    @Autowired
+//    public TattooistProfileRegister(MobileNumberConfirmationCodeProducer verificationCodeProducer,
+//                                    PersonalProfileRepository<TattooistProfile> personalProfileRepository,
+//                                    TattooistProfileRegistrationPublisher tattooistProfileRegistrationPublisher,
+//                                    MobileNumberConfirmationPublisher mobileNumberVerificationPublisher) {
+//        super(verificationCodeProducer, personalProfileRepository, tattooistProfileRegistrationPublisher, mobileNumberVerificationPublisher);
+//    }
 }

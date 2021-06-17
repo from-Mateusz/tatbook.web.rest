@@ -8,6 +8,10 @@ public class Token {
         this.digest = digest;
     }
 
+    public static Token create(String value) {
+        return new Token(value);
+    }
+
     public String getDigest() {
         return digest;
     }

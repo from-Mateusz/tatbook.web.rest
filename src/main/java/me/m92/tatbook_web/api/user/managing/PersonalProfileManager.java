@@ -1,9 +1,10 @@
 package me.m92.tatbook_web.api.user.managing;
 
-import me.m92.tatbook_web.api.common.projection.Feedback;
+import me.m92.tatbook_web.core.models.MobileNumberConfirmation;
 
 public interface PersonalProfileManager {
-    Feedback findProfileById(Long id);
-    Feedback findProfileByEmailAddress(String emailAddress);
-    Feedback findProfileByMobileNumber(String mobileNumber);
+    void register(PersonalProfileRegistration registration);
+    void repeatMobileNumberConfirmation(String mobileNumber);
+    void confirmMobileNumber(MobileNumberConfirmation confirmation);
+    void resetPassword();
 }
