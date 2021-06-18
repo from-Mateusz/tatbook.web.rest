@@ -1,5 +1,7 @@
 package me.m92.tatbook_web.configuration.security;
 
+import me.m92.tatbook_web.configuration.security.tokens.Token;
+import me.m92.tatbook_web.configuration.security.tokens.TokenGenerator;
 import me.m92.tatbook_web.configuration.security.utils.Moment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

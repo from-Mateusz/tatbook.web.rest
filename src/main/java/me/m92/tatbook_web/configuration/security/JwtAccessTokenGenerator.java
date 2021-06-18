@@ -2,6 +2,7 @@ package me.m92.tatbook_web.configuration.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import me.m92.tatbook_web.configuration.security.tokens.Token;
 import me.m92.tatbook_web.configuration.security.utils.Moment;
 import org.springframework.stereotype.Service;
 

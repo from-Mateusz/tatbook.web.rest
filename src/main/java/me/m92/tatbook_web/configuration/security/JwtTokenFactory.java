@@ -1,6 +1,8 @@
 package me.m92.tatbook_web.configuration.security;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import me.m92.tatbook_web.configuration.security.tokens.Token;
+import me.m92.tatbook_web.configuration.security.tokens.TokenFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

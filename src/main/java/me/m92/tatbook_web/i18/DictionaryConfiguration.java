@@ -37,4 +37,13 @@ public class DictionaryConfiguration {
         messageSource.setFallbackToSystemLocale(false);
         return new ErrorDictionary(messageSource);
     }
+
+    @Bean
+    public SuccessDictionary successDictionary() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:others/success_feedback");
+        messageSource.setDefaultEncoding(DEFAULT_CHARSET);
+        messageSource.setFallbackToSystemLocale(false);
+        return new SuccessDictionary(messageSource);
+    }
 }

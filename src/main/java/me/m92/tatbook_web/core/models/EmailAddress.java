@@ -19,13 +19,13 @@ public class EmailAddress {
     }
 
     public static EmailAddress of(String address) {
-        if(!canUse(address)) {
+        if(!hasValidFormat(address)) {
             return null;
         }
         return new EmailAddress(address);
     }
 
-    public static boolean canUse(String address) {
+    public static boolean hasValidFormat(String address) {
         return HARDENED_CORRECT_PATTERN.matcher(address).matches();
     }
 

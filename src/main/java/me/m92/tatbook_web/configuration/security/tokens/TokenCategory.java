@@ -1,4 +1,4 @@
-package me.m92.tatbook_web.configuration.security;
+package me.m92.tatbook_web.configuration.security.tokens;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

@@ -1,12 +1,12 @@
 package me.m92.tatbook_web.api.common.projection;
 
-public class ProjectionWrapper {
+public class ProjectionWrapper<T extends Projection> implements Projection {
 
-    private Projection projection;
+    private T projection;
 
     private String language;
 
-    private ProjectionWrapper(Projection projection, String language) {
+    private ProjectionWrapper(T projection, String language) {
         this.projection = projection;
         this.language = language;
     }
@@ -15,7 +15,7 @@ public class ProjectionWrapper {
         return new ProjectionWrapper(projection, language);
     }
 
-    public Projection getProjection() {
+    public T unwrap() {
         return projection;
     }
 

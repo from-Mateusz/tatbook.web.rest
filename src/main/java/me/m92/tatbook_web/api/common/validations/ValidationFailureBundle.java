@@ -18,7 +18,9 @@ public class ValidationFailureBundle {
     }
 
     public void add(ValidationFailure failure) {
-        this.failures.add(failure);
+        if(null != failure) {
+            this.failures.add(failure);
+        }
     }
 
     public boolean isEmpty() {

@@ -5,5 +5,5 @@ import me.m92.tatbook_web.api.common.projection.Feedback;
 import me.m92.tatbook_web.api.common.projection.ProjectionWrapper;
 
 public interface RegistrationService {
-    Feedback register(ProjectionWrapper personalProfileRegistration) throws FailedOperationException;
+    Feedback register(ProjectionWrapper<PersonalProfileRegistration> personalProfileRegistrationWrapper) throws FailedOperationException;
 }

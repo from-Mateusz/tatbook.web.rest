@@ -1,6 +1,6 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.configuration.security.Token;
+import me.m92.tatbook_web.configuration.security.tokens.Token;
 
 import java.time.LocalDateTime;
 

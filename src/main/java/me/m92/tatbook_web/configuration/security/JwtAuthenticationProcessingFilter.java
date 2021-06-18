@@ -1,5 +1,6 @@
 package me.m92.tatbook_web.configuration.security;
 
+import me.m92.tatbook_web.configuration.security.tokens.Token;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

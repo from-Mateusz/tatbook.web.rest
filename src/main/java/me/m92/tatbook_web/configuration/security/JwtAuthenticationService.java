@@ -1,6 +1,7 @@
 package me.m92.tatbook_web.configuration.security;
 
 import me.m92.tatbook_web.api.user.authentication.Credentials;
+import me.m92.tatbook_web.configuration.security.tokens.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

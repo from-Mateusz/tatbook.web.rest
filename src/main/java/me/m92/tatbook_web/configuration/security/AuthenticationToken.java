@@ -1,5 +1,7 @@
 package me.m92.tatbook_web.configuration.security;
 
+import me.m92.tatbook_web.configuration.security.tokens.Token;
+
 public class AuthenticationToken {
 
     private Token accessToken;

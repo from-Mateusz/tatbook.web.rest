@@ -1,5 +1,7 @@
 package me.m92.tatbook_web.configuration.security;
 
+import me.m92.tatbook_web.configuration.security.tokens.Token;
+
 import java.util.Optional;
 
 public interface TokenService {
