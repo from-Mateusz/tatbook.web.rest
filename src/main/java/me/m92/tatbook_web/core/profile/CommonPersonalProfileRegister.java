@@ -1,11 +1,7 @@
 package me.m92.tatbook_web.core.profile;
 
-import me.m92.tatbook_web.core.helpers.CustomApplicationEventPublisher;
 import me.m92.tatbook_web.core.models.PersonalProfile;
-import me.m92.tatbook_web.configuration.security.MobileNumberConfirmationTokenGenerator;
 import me.m92.tatbook_web.core.profile.dto.PersonalProfileRegistration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public class CommonPersonalProfileRegister<T extends PersonalProfile> implements PersonalProfileRegister {
 

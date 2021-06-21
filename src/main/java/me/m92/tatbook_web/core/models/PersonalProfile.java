@@ -1,6 +1,6 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.api.common.FailedOperationException;
+import me.m92.tatbook_web.configuration.security.tokens.Token;
 import me.m92.tatbook_web.infrastructure.converters.BooleanIntegerConverter;
 
 import javax.persistence.*;
@@ -10,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "domain_personal_profile")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "profile_type")
 public class PersonalProfile {
 
     private Long id;
@@ -29,6 +31,8 @@ public class PersonalProfile {
     private boolean blocked;
 
     private PersonalProfileVerification personalProfileVerification;
+
+    private List<Token> tokens;
 
     @Transient
     protected List<String> roles = new ArrayList<>();
@@ -74,6 +78,10 @@ public class PersonalProfile {
 
     }
 
+    public void receiveMobileNumberToken(Token token) {
+        mobileNumber.rotateToken(token);
+    }
+
     public void confirmMobileNumber(String token) {
         mobileNumber.confirm(token);
     }
@@ -100,14 +108,5 @@ public class PersonalProfile {
 
     public List<String> getRoles() {
         return Collections.unmodifiableList(this.roles);
-    }
-
-    public static void main(String...args) {
-        PersonalProfile personalProfile = new PersonalProfile("Mateusz Czyzewski",
-                                                                EmailAddress.of("mateo.czyzewski@gmail.com"),
-                                                                MobileNumber.create("500990300", "dasdasq3e32432432423"),
-                                                                Password.create("mateuszXXX"));
-        personalProfile.setPasswordResetToken("start54321");
-        personalProfile.resetPassword("testPassword", "st333t54321");
     }
 }

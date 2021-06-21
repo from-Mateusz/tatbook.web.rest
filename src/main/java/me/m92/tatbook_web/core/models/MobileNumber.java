@@ -18,6 +18,10 @@ public class MobileNumber {
 
     private MobileNumber() {}
 
+    private MobileNumber(String number) {
+        this.number = number;
+    }
+
     private MobileNumber(String number, Token token) {
         this.number = number;
         this.confirmation = MobileNumberConfirmation.create(token);
@@ -31,7 +35,7 @@ public class MobileNumber {
         if(!hasValidFormat(number)) {
             throw new IllegalArgumentException("Wrong number format");
         }
-        return new MobileNumber(number, token);
+        return null == token ? new MobileNumber(number) : new MobileNumber(number, token);
     }
 
     public static boolean hasValidFormat(String number) {

@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import me.m92.tatbook_web.configuration.security.PersonalProfileWrapper;
 import me.m92.tatbook_web.configuration.security.utils.Moment;
 import me.m92.tatbook_web.core.models.PersonalProfile;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DefaultJWTManager implements JWTManager {
 
@@ -40,17 +38,17 @@ public class DefaultJWTManager implements JWTManager {
             default: break;
         }
         String token = jwtBuilder.sign(Algorithm.RSA256(null, (RSAPrivateKey) keyPair.getPrivate()));
-        jwtPublicKeyRepository.save(SecurePublicKey.create(personalProfile, keyPair.getPublic().getEncoded()));
+        jwtPublicKeyRepository.save(PersonalProfilePublicKey.create(personalProfile, keyPair.getPublic().getEncoded()));
         return token;
     }
 
     @Override
     public TokenVerification verifyJWT(PersonalProfile personalProfile, String token) {
-        Optional<SecurePublicKey> possibleJWTPublicKey = jwtPublicKeyRepository.findByPersonalProfileId(personalProfile.getId());
+        Optional<PersonalProfilePublicKey> possibleJWTPublicKey = jwtPublicKeyRepository.findByPersonalProfileId(personalProfile.getId());
         if(!possibleJWTPublicKey.isPresent()) {
             throw new JWTVerificationException("Could not find public key!");
         }
-        SecurePublicKey securePublicKey = possibleJWTPublicKey.get();
+        PersonalProfilePublicKey securePublicKey = possibleJWTPublicKey.get();
         PublicKey publicKey = encodedKeyTool.recreatePublicKey(securePublicKey.getKey());
         JWTVerifier jwtVerifier = JWT.require(Algorithm.RSA256((RSAPublicKey) publicKey, null)).build();
         try {

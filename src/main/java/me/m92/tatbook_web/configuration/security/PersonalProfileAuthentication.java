@@ -1,6 +1,7 @@
 package me.m92.tatbook_web.configuration.security;
 
 import me.m92.tatbook_web.configuration.security.jwt.JWTAuthentication;
+import me.m92.tatbook_web.configuration.security.jwt.TokenPair;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -60,5 +61,13 @@ public class PersonalProfileAuthentication implements Authentication {
 
     public JWTAuthentication getJwtAuthentication() {
         return jwtAuthentication;
+    }
+
+    public TokenPair getJwtTokens() {
+        return jwtAuthentication.getTokenPair();
+    }
+
+    public boolean hasBeenRefreshed() {
+        return jwtAuthentication.isRefreshed();
     }
 }

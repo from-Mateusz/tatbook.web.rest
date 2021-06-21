@@ -1,11 +1,19 @@
 package me.m92.tatbook_web.core.models;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Entity
+@Table(name = "client_profile")
+@DiscriminatorValue("client")
 public class ClientProfile extends PersonalProfile {
 
+    @Transient
     private List<TattooStyle> favoriteStyles;
 
     private ClientProfile() {

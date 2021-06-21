@@ -1,8 +1,16 @@
 package me.m92.tatbook_web.core.models;
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
+@Table(name = "tattooist_profile")
+@DiscriminatorValue("tattooist")
 public class TattooistProfile extends PersonalProfile {
+
+    @OneToOne
+    @JoinColumn(name = "tattooist_profile_acceptance_id")
+    private TattooistProfileAcceptance acceptance;
 
     private String bio;
 
@@ -13,8 +21,6 @@ public class TattooistProfile extends PersonalProfile {
     private Calendar calendar;
 
     private Portfolio portfolio;
-
-    private TattooistProfileLegitimation legitimation;
 
     private List<Workplace> workplaces;
 
@@ -87,8 +93,20 @@ public class TattooistProfile extends PersonalProfile {
         this.workplaces.remove(workplace);
     }
 
-    public boolean isLegit() {
-        return legitimation.isConfirmed();
+    void receiveAcceptance() {
+        this.acceptance.accept();
+    }
+
+    void receiveRejection() {
+        this.acceptance.reject();
+    }
+
+    public boolean isAccepted() {
+        return acceptance.isAccepted();
+    }
+
+    public boolean isRejected() {
+        return acceptance.isRejected();
     }
 
     @Override
