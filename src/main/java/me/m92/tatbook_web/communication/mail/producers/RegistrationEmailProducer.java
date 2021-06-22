@@ -3,8 +3,11 @@ package me.m92.tatbook_web.communication.mail.producers;
 import me.m92.tatbook_web.communication.mail.Email;
 import me.m92.tatbook_web.i18.EmailDictionary;
 import me.m92.tatbook_web.i18.utils.LocaleFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.context.IContext;
@@ -16,13 +19,14 @@ import javax.mail.internet.MimeMultipart;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@Component
 public class RegistrationEmailProducer implements EmailProducer {
 
-    private final UserGroup userGroup;
+    private UserGroup userGroup;
 
-    private final Session session;
+    private Session session;
 
-    private TemplateEngine templateEngine;
+    private ITemplateEngine templateEngine;
 
     private EmailDictionary emailDictionary;
 
@@ -30,9 +34,11 @@ public class RegistrationEmailProducer implements EmailProducer {
         CLIENT, TATTOOIST
     }
 
+    private RegistrationEmailProducer() {}
+
     private RegistrationEmailProducer(UserGroup userGroup,
                                      Session session,
-                                     TemplateEngine templateEngine,
+                                     ITemplateEngine templateEngine,
                                      EmailDictionary emailDictionary) {
         this.userGroup = userGroup;
         this.session = session;
@@ -42,7 +48,7 @@ public class RegistrationEmailProducer implements EmailProducer {
 
     public static RegistrationEmailProducer getInstance(UserGroup userGroup,
                                                         Session session,
-                                                        TemplateEngine templateEngine,
+                                                        ITemplateEngine templateEngine,
                                                         EmailDictionary emailDictionary) {
         return new RegistrationEmailProducer(userGroup, session, templateEngine, emailDictionary);
     }

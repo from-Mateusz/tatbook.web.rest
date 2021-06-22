@@ -6,6 +6,7 @@ import me.m92.tatbook_web.communication.mail.producers.RegistrationEmailProducer
 import me.m92.tatbook_web.i18.EmailDictionary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 
 import java.io.IOException;
@@ -14,12 +15,12 @@ import java.util.Map;
 @Service
 public class EmailSenderFacade {
 
-    private TemplateEngine emailTemplateEngine;
+    private ITemplateEngine emailTemplateEngine;
 
     private EmailDictionary emailDictionary;
 
     @Autowired
-    public EmailSenderFacade(TemplateEngine emailTemplateEngine, EmailDictionary emailDictionary) {
+    public EmailSenderFacade(ITemplateEngine emailTemplateEngine, EmailDictionary emailDictionary) {
         this.emailTemplateEngine = emailTemplateEngine;
         this.emailDictionary = emailDictionary;
     }

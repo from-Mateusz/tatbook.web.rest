@@ -1,44 +1,56 @@
 package me.m92.tatbook_web.core.models;
 
+import me.m92.tatbook_web.configuration.security.tokens.BCryptTokenProtector;
+import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
 import me.m92.tatbook_web.configuration.security.tokens.Token;
+import me.m92.tatbook_web.configuration.security.tokens.TokenProtector;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Embeddable
 public class MobileNumberConfirmation {
 
-    private static final Long timeForVerification = 10L;
+    @Transient
+    private final TokenProtector tokenProtector;
 
-    private Token token;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MobileNumberConfirmationToken> tokens = new ArrayList<>();
 
-    private LocalDateTime expireDate;
-
-    private LocalDateTime useDate;
-
-    private MobileNumberConfirmation() {}
-
-    private MobileNumberConfirmation(Token token) {
-        this.token = token;
+    private MobileNumberConfirmation() {
+        tokenProtector = new BCryptTokenProtector();
     }
 
-    public static MobileNumberConfirmation create(Token token) {
-        return new MobileNumberConfirmation(token);
+    private MobileNumberConfirmation(MobileNumberConfirmationToken token,
+                                     TokenProtector tokenProtector) {
+        this.tokenProtector = tokenProtector;
+        this.tokens.add(token);
     }
 
-    private LocalDateTime calculateExpireDate() {
-        return LocalDateTime.now().plusMinutes(timeForVerification);
+    public static MobileNumberConfirmation create(MobileNumberConfirmationToken token,
+                                                  TokenProtector tokenProtector) {
+        return new MobileNumberConfirmation(token, tokenProtector);
     }
 
-    public void complete(String token) {
-        if(token.equals(this.token)) {
-            this.useDate = LocalDateTime.now();
+    void addToken(MobileNumberConfirmationToken token) {
+        this.tokens.add(tokenProtector.protect(token));
+    }
+
+    boolean confirm(MobileNumberConfirmationToken token) {
+        for(MobileNumberConfirmationToken confirmableToken : getConfirmableTokens()) {
+            if(tokenProtector.verify(token, confirmableToken)) {
+                return true;
+            }
         }
+        return false;
     }
 
-    public Token getToken() {
-        return this.token;
-    }
-
-    public boolean isConfirmed() {
-        return null != useDate && useDate.isBefore(expireDate);
+    public List<MobileNumberConfirmationToken> getConfirmableTokens() {
+        return tokens.stream()
+                .filter(token -> !token.isExpired())
+                .collect(Collectors.toUnmodifiableList());
     }
 }

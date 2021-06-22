@@ -43,7 +43,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
         http.addFilterBefore(utf8CharacterEncodingFilter(), CsrfFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -72,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    private JWTAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+    JWTAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
         JWTAuthenticationProcessingFilter filter = new JWTAuthenticationProcessingFilter(PRIVATE_ENDPOINTS);
         filter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
         return filter;
@@ -86,21 +85,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    private AuthenticationSuccessHandler authenticationSuccessHandler() {
+    AuthenticationSuccessHandler authenticationSuccessHandler() {
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
         handler.setRedirectStrategy(new OffRedirectStrategy());
         return handler;
     }
 
     @Bean
-    private FilterRegistrationBean omitAutoRegistrationOfJwtAuthenticationProcessingFilter(final JWTAuthenticationProcessingFilter jwtAuthenticationProcessingFilter) {
+    FilterRegistrationBean omitAutoRegistrationOfJwtAuthenticationProcessingFilter(final JWTAuthenticationProcessingFilter jwtAuthenticationProcessingFilter) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean(jwtAuthenticationProcessingFilter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }
 
     @Bean
-    private CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("https://localhost:3900"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT"));

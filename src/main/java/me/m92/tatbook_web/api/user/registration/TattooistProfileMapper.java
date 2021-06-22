@@ -6,7 +6,9 @@ import me.m92.tatbook_web.core.models.EmailAddress;
 import me.m92.tatbook_web.core.models.MobileNumber;
 import me.m92.tatbook_web.core.models.Password;
 import me.m92.tatbook_web.core.models.TattooistProfile;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TattooistProfileMapper implements PersonalProfileMapper<TattooistProfile> {
 
     private BCryptPasswordProtector passwordProtector;

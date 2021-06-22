@@ -20,7 +20,7 @@ public class CredentialsCorrectnessValidator extends CombinedValidator<Credentia
     private CredentialsOwnerFinder credentialsOwnerFinder;
 
     @Autowired
-    public CredentialsCorrectnessValidator(@Qualifier("ValidationErrorsMsgDictionary") MessageDictionary messageDictionary,
+    public CredentialsCorrectnessValidator(@Qualifier("ErrorsDict") MessageDictionary messageDictionary,
                                            CredentialsOwnerFinder credentialsOwnerFinder) {
         super(2);
         this.messageDictionary = messageDictionary;

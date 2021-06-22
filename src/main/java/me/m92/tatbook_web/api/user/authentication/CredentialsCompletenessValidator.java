@@ -15,7 +15,7 @@ public class CredentialsCompletenessValidator extends CombinedValidator<Credenti
     private MessageDictionary messageDictionary;
 
     @Autowired
-    public CredentialsCompletenessValidator(@Qualifier("ValidationErrorsMsgDictionary") MessageDictionary messageDictionary) {
+    public CredentialsCompletenessValidator(@Qualifier("ErrorsDict") MessageDictionary messageDictionary) {
         super(1);
         this.messageDictionary = messageDictionary;
     }

@@ -1,6 +1,7 @@
 package me.m92.tatbook_web.configuration.security.tokens;
 
 import io.netty.handler.codec.base64.Base64Encoder;
+import me.m92.tatbook_web.configuration.security.passwords.BCryptPasswordProtector;
 import me.m92.tatbook_web.core.models.EmailAddress;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -26,23 +27,30 @@ public class EmailAddressConfirmationTokenGenerator implements TokenGenerator<Em
     @Override
     public EmailAddressConfirmationToken generate(Object... extras) {
         Base64.Encoder urlEncoder = Base64.getUrlEncoder().withoutPadding();
-        byte[] salt = new byte[0];
+
+        byte[] salt = new byte[20];
         PRNG.nextBytes(salt);
-        System.out.println(String.valueOf(salt));
+        StringJoiner hexSaltJoiner = new StringJoiner("");
+        for(byte saltByte : salt) {
+            hexSaltJoiner.add(String.format("%02x", saltByte));
+        }
+
         StringJoiner combinedSalt = new StringJoiner("");
         if(0 != extras.length) {
             for(Object extra : extras) {
-                combinedSalt.add(extra.toString());
+                if(null != extra) {
+                    combinedSalt.add(extra.toString());
+                }
             }
         }
-        combinedSalt.add(String.valueOf(salt));
-        combinedSalt.add("" + System.currentTimeMillis());
+
+        combinedSalt.add(hexSaltJoiner.toString());
+        combinedSalt.add("" + System.nanoTime());
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] tokenBytes = messageDigest.digest(combinedSalt.toString().getBytes());
             return EmailAddressConfirmationToken.of(String.valueOf(urlEncoder.encodeToString(tokenBytes)));
         } catch (NoSuchAlgorithmException ex) {
-            System.out.println("No algo");
             return EmailAddressConfirmationToken.of(String.valueOf(urlEncoder.encodeToString(combinedSalt.toString().getBytes())));
         }
     }
@@ -50,6 +58,9 @@ public class EmailAddressConfirmationTokenGenerator implements TokenGenerator<Em
     public static void main(String...args) {
         EmailAddressConfirmationTokenGenerator tokenGenerator = new EmailAddressConfirmationTokenGenerator();
         EmailAddressConfirmationToken token = tokenGenerator.generate();
-        System.out.println(token);
+        BCryptTokenProtector tokenProtector = new BCryptTokenProtector();
+        EmailAddressConfirmationToken protectedToken = tokenProtector.protect(token);
+        System.out.println("Unprotected token: " + token);
+        System.out.println("Protected token: " + protectedToken);
     }
 }

@@ -2,10 +2,7 @@ package me.m92.tatbook_web.core.models;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,8 +11,19 @@ public class TattooistProfileAcceptance {
 
     private static final long DEFAULT_ACCEPTANCE_TIME = (3 * (60 * 24));
 
+    @TableGenerator(name = "TattooistAcceptanceIdGenerator",
+            table = "id_generator",
+            pkColumnName = "generator_name",
+            valueColumnName = "generator_value",
+            pkColumnValue = "tattooist_profile_acceptance_id_gen",
+            initialValue = 2500,
+            allocationSize = 99)
+    @Id
+    @GeneratedValue(generator = "TattooistAcceptanceIdGenerator")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "administrator_profile_id")
     private AdministratorProfile acceptingAdministrator;
 
     @Column(name = "acceptance_date")

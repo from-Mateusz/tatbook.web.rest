@@ -42,20 +42,12 @@ public class DefaultRegistrationService implements RegistrationService {
         this.successMessageDictionary = successMessageDictionary;
     }
 
-    @Autowired
-    public DefaultRegistrationService(TattooistProfileMapper tattooistProfileMapper, TattooistProfileRepository tattooistProfileRepository) {
-        this.tattooistProfileMapper = tattooistProfileMapper;
-        this.tattooistProfileRepository = tattooistProfileRepository;
-    }
-
     @Override
     public Feedback register(ProjectionWrapper<PersonalProfileRegistration> personalProfileRegistrationWrapper) throws FailedOperationException {
         validate(personalProfileRegistrationWrapper);
         TattooistProfile tattooistProfile = tattooistProfileMapper.mapToPersonalProfile(personalProfileRegistrationWrapper.unwrap());
-//        Token token = tokenFactory.create(MOBILE_NUMBER_CONFIRMATION);
-//        tattooistProfile.receiveMobileNumberToken(tokenProtector.protect(token));
         MobileNumberConfirmationToken mobileNumberConfirmationToken = mobileNumberConfirmationTokenGenerator.generate();
-        MobileNumberConfirmationToken protectedMobileNumberConfirmationToken = tokenProtector.protect(mobileNumberConfirmationToken);
+        tattooistProfile.receiveMobileNumberConfirmationToken                                                                         (mobileNumberConfirmationToken);
         tattooistProfileRepository.save(tattooistProfile);
         return SimpleFeedback.ok(successMessageDictionary.findMessage("profile_registration_success",
                                                                             personalProfileRegistrationWrapper.getLanguage()));

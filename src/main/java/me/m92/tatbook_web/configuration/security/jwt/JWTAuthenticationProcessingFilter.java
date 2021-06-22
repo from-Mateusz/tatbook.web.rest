@@ -105,4 +105,9 @@ public class JWTAuthenticationProcessingFilter extends AbstractAuthenticationPro
         Gson gson = new Gson();
         return gson.toJson(tokenPair);
     }
+
+    @Override
+    public void afterPropertiesSet() {
+        return;
+    }
 }

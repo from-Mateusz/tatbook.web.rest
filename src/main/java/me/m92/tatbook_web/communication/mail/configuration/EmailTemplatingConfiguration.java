@@ -1,5 +1,6 @@
 package me.m92.tatbook_web.communication.mail.configuration;
 
+import me.m92.tatbook_web.i18.MessageDictionary;
 import me.m92.tatbook_web.i18.MessageDictionaryCatalog;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ class EmailTemplatingConfiguration implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    private MessageDictionaryCatalog messageDictionaryCatalog;
+    private MessageDictionary messageDictionary;
 
     @Autowired
-    public EmailTemplatingConfiguration(MessageDictionaryCatalog messageDictionaryCatalog) {
-        this.messageDictionaryCatalog = messageDictionaryCatalog;
+    public EmailTemplatingConfiguration(@Qualifier("EmailDict") MessageDictionary messageDictionary) {
+        this.messageDictionary = messageDictionary;
     }
 
     @Override
@@ -39,9 +40,7 @@ class EmailTemplatingConfiguration implements ApplicationContextAware {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setEnableSpringELCompiler(true);
         templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setTemplateEngineMessageSource(
-                messageDictionaryCatalog.getByCategory(MessageDictionaryCatalog.Category.EMAIL)
-                                            .getMessageSource());
+        templateEngine.setTemplateEngineMessageSource(messageDictionary.getMessageSource());
         return templateEngine;
     }
 

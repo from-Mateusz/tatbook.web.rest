@@ -1,8 +1,7 @@
 package me.m92.tatbook_web.core.models;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "administrator_profile")
@@ -10,6 +9,9 @@ import javax.persistence.Table;
 public class AdministratorProfile extends PersonalProfile {
 
     private String pin;
+
+    @OneToMany(mappedBy = "acceptingAdministrator", cascade = CascadeType.ALL)
+    private List<TattooistProfileAcceptance> tattooistProfileAcceptances;
 
     public AdministratorProfile(String name, EmailAddress emailAddress, MobileNumber mobileNumber, Password password, String pin) {
         super(name, emailAddress, mobileNumber, password);

@@ -5,6 +5,7 @@
 
 #should ignore any configuration files listed below
 *.properties
+*.json
 
 #should ignore any text files
 *.txt

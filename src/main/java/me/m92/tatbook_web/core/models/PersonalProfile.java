@@ -1,5 +1,7 @@
 package me.m92.tatbook_web.core.models;
 
+import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
+import me.m92.tatbook_web.configuration.security.tokens.PasswordResetToken;
 import me.m92.tatbook_web.configuration.security.tokens.Token;
 import me.m92.tatbook_web.infrastructure.converters.BooleanIntegerConverter;
 
@@ -9,11 +11,20 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "domain_personal_profile")
+@Table(name = "personal_profile")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "profile_type")
-public class PersonalProfile {
+public abstract class PersonalProfile {
 
+    @TableGenerator(name = "PersonalProfileIdGenerator",
+            table = "id_generator",
+            pkColumnName = "generator_name",
+            valueColumnName = "generator_value",
+            pkColumnValue = "personal_profile_id_gen",
+            initialValue = 5000,
+            allocationSize = 99)
+    @Id
+    @GeneratedValue(generator = "PersonalProfileIdGenerator")
     private Long id;
 
     private String name;
@@ -30,9 +41,10 @@ public class PersonalProfile {
     @Convert(converter = BooleanIntegerConverter.class)
     private boolean blocked;
 
-    private PersonalProfileVerification personalProfileVerification;
+    @Convert(converter = BooleanIntegerConverter.class)
+    private boolean verified;
 
-    private List<Token> tokens;
+//    private PersonalProfileVerification personalProfileVerification;
 
     @Transient
     protected List<String> roles = new ArrayList<>();
@@ -78,16 +90,15 @@ public class PersonalProfile {
 
     }
 
-    public void receiveMobileNumberToken(Token token) {
-        mobileNumber.rotateToken(token);
+    public void receiveMobileNumberConfirmationToken(MobileNumberConfirmationToken token) {
+        mobileNumber.receiveFreshToken(token);
     }
 
-    public void confirmMobileNumber(String token) {
-        mobileNumber.confirm(token);
-    }
-
-    public boolean hasConfirmedMobileNumber() {
-        return mobileNumber.isConfirmed();
+    public boolean confirmMobileNumber(MobileNumberConfirmationToken token) {
+        if(mobileNumber.confirm(token)) {
+            this.verified = true;
+        }
+        return this.verified;
     }
 
     public Password getPassword() {
@@ -98,12 +109,12 @@ public class PersonalProfile {
         this.password = Password.create(password);
     }
 
-    public void setPasswordResetToken(String token) {
+    public void receivePasswordResetToken(PasswordResetToken token) {
         this.password.setResetToken(token);
     }
 
-    public void resetPassword(String newPassword, String token) {
-        this.password.reset(newPassword, token);
+    public void resetPassword(String newPassword, PasswordResetToken token) {
+        this.password.reset(token, newPassword);
     }
 
     public List<String> getRoles() {

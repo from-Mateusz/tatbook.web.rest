@@ -1,12 +1,13 @@
 package me.m92.tatbook_web.core.models;
 
 import me.m92.tatbook_web.configuration.security.exceptions.UnencryptedException;
+import me.m92.tatbook_web.configuration.security.tokens.PasswordResetToken;
 import me.m92.tatbook_web.core.models.exceptions.PasswordResetFailedException;
-import me.m92.tatbook_web.core.models.validators.PasswordResetValidator;
 import me.m92.tatbook_web.infrastructure.converters.BooleanIntegerConverter;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Optional;
 
 @Embeddable
 public class Password {
@@ -19,9 +20,7 @@ public class Password {
     public boolean encrypted;
 
     @Embedded
-    private PasswordReset passwordReset;
-
-    private PasswordResetValidator passwordResetValidator = new PasswordResetValidator();
+    private PasswordReset reset;
 
     private Password() {}
 
@@ -50,13 +49,15 @@ public class Password {
         return Objects.hash(value);
     }
 
-    public void setResetToken(String token) {
-        this.passwordReset = PasswordReset.create(token);
+    public void setResetToken(PasswordResetToken token) {
+        this.reset = PasswordReset.create(token);
     }
 
-    public Password reset(String newPassword, String token) throws PasswordResetFailedException {
-        passwordResetValidator.validate(passwordReset, token);
-        return Password.create(newPassword);
+    public Optional<Password> reset(PasswordResetToken token, String newPassword) throws PasswordResetFailedException {
+        if(reset.verify(token)) {
+            return Optional.ofNullable(Password.create(newPassword));
+        }
+        return Optional.ofNullable(null);
     }
 
     @PrePersist

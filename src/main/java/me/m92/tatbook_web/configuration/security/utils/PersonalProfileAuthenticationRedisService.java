@@ -9,7 +9,5 @@ import org.springframework.stereotype.Service;
 @Service
 class PersonalProfileAuthenticationRedisService extends RedisService<PersonalProfileAuthentication> {
     @Autowired
-    public PersonalProfileAuthenticationRedisService(HashOperations<Object, String, Object> hashOperations) {
-        super(hashOperations);
-    }
+    public PersonalProfileAuthenticationRedisService() {}
 }

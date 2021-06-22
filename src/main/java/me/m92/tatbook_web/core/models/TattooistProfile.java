@@ -16,12 +16,16 @@ public class TattooistProfile extends PersonalProfile {
 
     private String instagramProfile;
 
+    @Transient
     private Set<TattooStyle> masteredStyles;
 
+    @Transient
     private Calendar calendar;
 
+    @Transient
     private Portfolio portfolio;
 
+    @Transient
     private List<Workplace> workplaces;
 
     public TattooistProfile() {

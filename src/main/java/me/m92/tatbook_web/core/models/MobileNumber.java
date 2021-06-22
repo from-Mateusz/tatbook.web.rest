@@ -1,19 +1,23 @@
 package me.m92.tatbook_web.core.models;
 
+import me.m92.tatbook_web.configuration.security.tokens.BCryptTokenProtector;
+import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
 import me.m92.tatbook_web.configuration.security.tokens.Token;
+import me.m92.tatbook_web.configuration.security.tokens.TokenProtector;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import java.util.List;
 import java.util.regex.Pattern;
 
-@Entity
+@Embeddable
 public class MobileNumber {
 
     private static final Pattern MOBILE_NUMBER_PATTERN = Pattern.compile("\b[0-9]{9}\b");
 
     private String number;
 
-    @Embedded
     private MobileNumberConfirmation confirmation;
 
     private MobileNumber() {}
@@ -22,20 +26,24 @@ public class MobileNumber {
         this.number = number;
     }
 
-    private MobileNumber(String number, Token token) {
+    private MobileNumber(String number,
+                         MobileNumberConfirmationToken token,
+                         TokenProtector tokenProtector) {
         this.number = number;
-        this.confirmation = MobileNumberConfirmation.create(token);
+        this.confirmation = MobileNumberConfirmation.create(token, tokenProtector);
     }
 
     public static MobileNumber of(String number) {
-        return of(number, null);
+        return of(number, null, new BCryptTokenProtector());
     }
 
-    public static MobileNumber of(String number, Token token) {
+    public static MobileNumber of(String number,
+                                  MobileNumberConfirmationToken token,
+                                  TokenProtector tokenProtector) {
         if(!hasValidFormat(number)) {
             throw new IllegalArgumentException("Wrong number format");
         }
-        return null == token ? new MobileNumber(number) : new MobileNumber(number, token);
+        return null == token ? new MobileNumber(number) : new MobileNumber(number, token, tokenProtector);
     }
 
     public static boolean hasValidFormat(String number) {
@@ -46,19 +54,15 @@ public class MobileNumber {
         return number;
     }
 
-    public boolean isConfirmed() {
-        return this.confirmation.isConfirmed();
+    boolean confirm(MobileNumberConfirmationToken token) {
+        return this.confirmation.confirm(token);
     }
 
-    public void confirm(String token) {
-        confirmation.complete(token);
+    public List<MobileNumberConfirmationToken> getValidTokens() {
+        return this.confirmation.getConfirmableTokens();
     }
 
-    public Token getToken() {
-        return this.confirmation.getToken();
-    }
-
-    public void rotateToken(Token token) {
-        this.confirmation = MobileNumberConfirmation.create(token);
+    public void receiveFreshToken(MobileNumberConfirmationToken token) {
+        this.confirmation.addToken(token);
     }
 }

@@ -1,47 +1,58 @@
 package me.m92.tatbook_web.core.models;
 
-import javax.persistence.Embeddable;
+import me.m92.tatbook_web.configuration.security.tokens.BCryptTokenProtector;
+import me.m92.tatbook_web.configuration.security.tokens.PasswordResetToken;
+import me.m92.tatbook_web.configuration.security.tokens.TokenProtector;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Embeddable
 public class PasswordReset {
 
-    private static final long LONGEVITY = (24 * 60);
+    @Transient
+    private final TokenProtector tokenProtector;
 
-    private String token;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PasswordResetToken> tokens = new ArrayList<>();
 
-    private LocalDateTime expireDate;
-
-    private LocalDateTime useDate;
-
-    private PasswordReset() {}
-
-    private PasswordReset(String token) {
-        this.token = token;
-        this.expireDate = calculateExpireDate();
+    private PasswordReset() {
+        tokenProtector = new BCryptTokenProtector();
     }
 
-    public static PasswordReset create(String token) {
+    private PasswordReset(PasswordResetToken token) {
+        this();
+        this.tokens.add(token);
+    }
+
+    private PasswordReset(PasswordResetToken token, TokenProtector tokenProtector) {
+        this.tokens.add(token);
+        this.tokenProtector = tokenProtector;
+    }
+
+    public static PasswordReset create(PasswordResetToken token) {
         return new PasswordReset(token);
     }
 
-    private LocalDateTime calculateExpireDate() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        return currentTime.plusMinutes(LONGEVITY);
+    public static PasswordReset create(PasswordResetToken token, TokenProtector tokenProtector) {
+        return new PasswordReset(token, tokenProtector);
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public boolean isExpired() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        return currentTime.isAfter(expireDate);
-    }
-
-    public void use(String token) {
-        if(token.equals(this.token)) {
-            this.useDate = LocalDateTime.now();
+    public boolean verify(PasswordResetToken token) {
+        for(PasswordResetToken verifiableToken : getVerifiableTokens()) {
+            if(tokenProtector.verify(token, verifiableToken)) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    private List<PasswordResetToken> getVerifiableTokens() {
+        return tokens.stream()
+                    .filter(token -> (!token.isExpired() && !token.isUsed()))
+                    .collect(Collectors.toUnmodifiableList());
     }
 }

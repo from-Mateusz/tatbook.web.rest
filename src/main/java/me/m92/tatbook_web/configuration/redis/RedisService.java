@@ -4,18 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.hash.Jackson2HashMapper;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 public abstract class RedisService<T> {
 
+    @Resource(name = "redisTemplate")
     private HashOperations<Object, String, Object> hashOperations;
 
     private Jackson2HashMapper hashMapper = new Jackson2HashMapper(true);
-
-    @Autowired
-    public RedisService(HashOperations<Object, String, Object> hashOperations) {
-        this.hashOperations = hashOperations;
-    }
 
     public T findCachedValue(String key) {
         Map<String, Object> hash = hashOperations.entries(key);

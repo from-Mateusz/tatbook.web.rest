@@ -4,6 +4,7 @@ import me.m92.tatbook_web.communication.text.Text;
 import me.m92.tatbook_web.i18.MessageDictionary;
 import me.m92.tatbook_web.i18.TextDictionary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class VerificationCodeTextProducer extends AbstractTextProducer {
 
     @Autowired
-    public VerificationCodeTextProducer(TextDictionary messageDictionary) {
+    public VerificationCodeTextProducer(@Qualifier("TextDict") MessageDictionary messageDictionary) {
         super(messageDictionary);
     }
 

@@ -9,9 +9,18 @@ import javax.persistence.*;
 @Table(name = "pub_key")
 public class PersonalProfilePublicKey {
 
+    @TableGenerator(name = "PublicKeyIdGenerator",
+    table = "id_generator",
+    pkColumnName = "generator_name",
+    valueColumnName = "generator_value",
+    pkColumnValue = "pub_key_id_gen",
+    initialValue = 2000,
+    allocationSize = 99)
+    @Id
+    @GeneratedValue(generator = "PublicKeyIdGenerator")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "personal_profile_id")
     private PersonalProfile personalProfile;
 
