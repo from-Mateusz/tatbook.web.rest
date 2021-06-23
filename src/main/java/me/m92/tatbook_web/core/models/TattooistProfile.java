@@ -6,6 +6,7 @@ import java.util.*;
 @Entity
 @Table(name = "tattooist_profile")
 @DiscriminatorValue("tattooist")
+@PrimaryKeyJoinColumn(name = "tattooist_profile_id")
 public class TattooistProfile extends PersonalProfile {
 
     @OneToOne
@@ -14,6 +15,7 @@ public class TattooistProfile extends PersonalProfile {
 
     private String bio;
 
+    @Column(name = "instagram_profile_name")
     private String instagramProfile;
 
     @Transient

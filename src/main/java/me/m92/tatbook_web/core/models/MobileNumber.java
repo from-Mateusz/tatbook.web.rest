@@ -1,23 +1,24 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.configuration.security.tokens.BCryptTokenProtector;
-import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
-import me.m92.tatbook_web.configuration.security.tokens.Token;
-import me.m92.tatbook_web.configuration.security.tokens.TokenProtector;
+import me.m92.tatbook_web.security.tokens.BCryptTokenProtector;
+import me.m92.tatbook_web.security.tokens.MobileNumberConfirmationToken;
+import me.m92.tatbook_web.security.tokens.TokenProtector;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import java.util.List;
 import java.util.regex.Pattern;
 
 @Embeddable
 public class MobileNumber {
 
-    private static final Pattern MOBILE_NUMBER_PATTERN = Pattern.compile("\b[0-9]{9}\b");
+    private static final Pattern MOBILE_NUMBER_PATTERN = Pattern.compile("\\b[5-8]{1}[0-9]{2}[0-9]{6}\\b");
 
+    @Column(name = "mobile_number")
     private String number;
 
+    @Embedded
     private MobileNumberConfirmation confirmation;
 
     private MobileNumber() {}
@@ -63,6 +64,11 @@ public class MobileNumber {
     }
 
     public void receiveFreshToken(MobileNumberConfirmationToken token) {
-        this.confirmation.addToken(token);
+        if(null == confirmation) {
+            this.confirmation = MobileNumberConfirmation.create(token);
+        }
+        else {
+            this.confirmation.addToken(token);
+        }
     }
 }

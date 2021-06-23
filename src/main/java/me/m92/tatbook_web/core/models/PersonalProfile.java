@@ -1,8 +1,7 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
-import me.m92.tatbook_web.configuration.security.tokens.PasswordResetToken;
-import me.m92.tatbook_web.configuration.security.tokens.Token;
+import me.m92.tatbook_web.security.tokens.MobileNumberConfirmationToken;
+import me.m92.tatbook_web.security.tokens.PasswordResetToken;
 import me.m92.tatbook_web.infrastructure.converters.BooleanIntegerConverter;
 
 import javax.persistence.*;
@@ -24,6 +23,7 @@ public abstract class PersonalProfile {
             initialValue = 5000,
             allocationSize = 99)
     @Id
+    @Column(name = "personal_profile_id")
     @GeneratedValue(generator = "PersonalProfileIdGenerator")
     private Long id;
 

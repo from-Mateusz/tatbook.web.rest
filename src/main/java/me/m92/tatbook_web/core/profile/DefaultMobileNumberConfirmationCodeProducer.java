@@ -1,6 +1,6 @@
 package me.m92.tatbook_web.core.profile;
 
-import me.m92.tatbook_web.configuration.security.utils.Moment;
+import me.m92.tatbook_web.security.utils.Moment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

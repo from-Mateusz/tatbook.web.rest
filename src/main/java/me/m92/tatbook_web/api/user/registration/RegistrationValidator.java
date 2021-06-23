@@ -4,6 +4,7 @@ import me.m92.tatbook_web.api.common.projection.ProjectionWrapper;
 import me.m92.tatbook_web.api.common.validations.CombinedValidator;
 import me.m92.tatbook_web.api.common.validations.DataIntegrityGuard;
 import me.m92.tatbook_web.api.common.validations.ValidationFailureBundle;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -11,6 +12,11 @@ import java.util.List;
 public class RegistrationValidator extends CombinedValidator<ProjectionWrapper<PersonalProfileRegistration>> {
 
     private List<CombinedValidator<ProjectionWrapper<PersonalProfileRegistration>>> validators;
+
+    @Autowired
+    public RegistrationValidator(List<CombinedValidator<ProjectionWrapper<PersonalProfileRegistration>>> validators) {
+        this.validators = validators;
+    }
 
     @Override
     public ValidationFailureBundle validate(ProjectionWrapper<PersonalProfileRegistration> projection) {

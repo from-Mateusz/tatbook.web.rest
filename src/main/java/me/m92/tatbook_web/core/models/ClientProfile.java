@@ -1,9 +1,6 @@
 package me.m92.tatbook_web.core.models;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "client_profile")
 @DiscriminatorValue("client")
+@PrimaryKeyJoinColumn(name = "client_profile_id")
 public class ClientProfile extends PersonalProfile {
 
     @Transient

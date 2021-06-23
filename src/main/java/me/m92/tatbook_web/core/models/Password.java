@@ -1,7 +1,7 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.configuration.security.exceptions.UnencryptedException;
-import me.m92.tatbook_web.configuration.security.tokens.PasswordResetToken;
+import me.m92.tatbook_web.security.exceptions.UnencryptedException;
+import me.m92.tatbook_web.security.tokens.PasswordResetToken;
 import me.m92.tatbook_web.core.models.exceptions.PasswordResetFailedException;
 import me.m92.tatbook_web.infrastructure.converters.BooleanIntegerConverter;
 
@@ -14,10 +14,6 @@ public class Password {
 
     @Column(name = "password")
     private String value;
-
-    @Column
-    @Convert(converter = BooleanIntegerConverter.class)
-    public boolean encrypted;
 
     @Embedded
     private PasswordReset reset;
@@ -58,13 +54,5 @@ public class Password {
             return Optional.ofNullable(Password.create(newPassword));
         }
         return Optional.ofNullable(null);
-    }
-
-    @PrePersist
-    @PreUpdate
-    private void isEncrypted() throws UnencryptedException {
-        if(!encrypted) {
-            throw new UnencryptedException();
-        }
     }
 }

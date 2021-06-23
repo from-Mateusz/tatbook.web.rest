@@ -1,12 +1,10 @@
 package me.m92.tatbook_web.core.models;
 
-import me.m92.tatbook_web.configuration.security.tokens.BCryptTokenProtector;
-import me.m92.tatbook_web.configuration.security.tokens.MobileNumberConfirmationToken;
-import me.m92.tatbook_web.configuration.security.tokens.Token;
-import me.m92.tatbook_web.configuration.security.tokens.TokenProtector;
+import me.m92.tatbook_web.security.tokens.BCryptTokenProtector;
+import me.m92.tatbook_web.security.tokens.MobileNumberConfirmationToken;
+import me.m92.tatbook_web.security.tokens.TokenProtector;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +26,10 @@ public class MobileNumberConfirmation {
                                      TokenProtector tokenProtector) {
         this.tokenProtector = tokenProtector;
         this.tokens.add(token);
+    }
+
+    public static MobileNumberConfirmation create(MobileNumberConfirmationToken token) {
+        return new MobileNumberConfirmation(token, new BCryptTokenProtector());
     }
 
     public static MobileNumberConfirmation create(MobileNumberConfirmationToken token,

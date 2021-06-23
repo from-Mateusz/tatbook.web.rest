@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 @Table(name = "administrator_profile")
 @DiscriminatorValue("administrator")
+@PrimaryKeyJoinColumn(name = "administrator_profile_id")
 public class AdministratorProfile extends PersonalProfile {
 
     private String pin;

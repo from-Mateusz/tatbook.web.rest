@@ -10,6 +10,8 @@ import me.m92.tatbook_web.core.models.MobileNumber;
 import me.m92.tatbook_web.core.profile.ClientProfileRepository;
 import me.m92.tatbook_web.core.profile.TattooistProfileRepository;
 import me.m92.tatbook_web.i18.MessageDictionary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @DataIntegrityGuard
 public class RegistrationCorrectnessValidator extends CombinedValidator<ProjectionWrapper<PersonalProfileRegistration>> {
@@ -19,6 +21,16 @@ public class RegistrationCorrectnessValidator extends CombinedValidator<Projecti
     private ClientProfileRepository clientProfileRepository;
 
     private MessageDictionary messageDictionary;
+
+    @Autowired
+    public RegistrationCorrectnessValidator(TattooistProfileRepository tattooistProfileRepository,
+                                            ClientProfileRepository clientProfileRepository,
+                                            @Qualifier("ErrorsDict") MessageDictionary messageDictionary) {
+        super(1);
+        this.tattooistProfileRepository = tattooistProfileRepository;
+        this.clientProfileRepository = clientProfileRepository;
+        this.messageDictionary = messageDictionary;
+    }
 
     @Override
     public ValidationFailureBundle validate(ProjectionWrapper<PersonalProfileRegistration> projection) {
